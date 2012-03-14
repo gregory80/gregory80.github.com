@@ -2,7 +2,9 @@
 newT.save("gitactivity.site", function(data) {
     return (
         newT.div({},
-            newT.p("github activity for ", newT.em(data.user), " ", data.since_date),
+            newT.p("public ",
+                   newT.a({href:"https://github.com"}, "github.com"),
+                   " activity for ", newT.em(data.user), " ", data.since_date),
             newT.ul(
                 newT.eachRender(data.summaries, "gitsummaries.site")
             ),
