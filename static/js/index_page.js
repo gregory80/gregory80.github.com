@@ -105,15 +105,18 @@ function commit_across_repos(data) {
 
   return commit_counter + " "+ plurald("commit", commit_counter) +" across " + counter + " " + plurald("repo", counter);
 }
-
-function total_forks(data) {
-  var counter = 0;
-  var verb = "repositories";
+function count_type(type, data) {
+  var count=0;
   data.forEach(function(item) {
-    if(item.type === "ForkEvent") {
-      counter += 1;
+    if(item.type === type) {
+      count+=1;
     }
   });
+  return count;
+}
+function total_forks(data) {
+  var counter = count_type("ForkEvent", data);
+  var verb = "repositories";
   if(counter === 1) {
     verb = "repository"
   }
@@ -121,15 +124,14 @@ function total_forks(data) {
 }
 
 function total_pullrequests(data) {
-  var counter = 0;
-  data.forEach(function(item) {
-    if(item.type === "PullRequestEvent") {
-      counter += 1;
-    }
-  });
+  var counter = count_type("PullRequestEvent", data);
   return "Made " + counter + " pull " + plurald("request", counter); 
-  
 }
+function total_watched(data) {
+  var counter = count_type("WatchEvent", data);
+  return "Watched " + counter + " repos"; 
+}
+
 function bindEvents(username) {
   $(".gitactivity_search_form").bind("submit", function(e) {
     e.preventDefault();
@@ -197,10 +199,11 @@ function get_latest(username) {
       }
       
     }
-
+    console.log(data, "repos", repos);
     summaries.push(commit_across_repos(repos));
     summaries.push(total_forks(data));
     summaries.push(total_pullrequests(data));
+    summaries.push(total_watched(data));
     return {
       user:username,
       since_date:since_date(data),
