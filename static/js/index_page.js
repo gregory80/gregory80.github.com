@@ -199,7 +199,6 @@ function get_latest(username) {
       }
       
     }
-    console.log(data, "repos", repos);
     summaries.push(commit_across_repos(repos));
     summaries.push(total_forks(data));
     summaries.push(total_pullrequests(data));
@@ -215,7 +214,6 @@ function get_latest(username) {
     };
     //return data.slice(0,15);
   }).done(function(data) {
-    //console.log(arguments);
     newT.render("gitactivity.site", data, {
       el:$("#recent_git_activitiy").get(0)
     });
