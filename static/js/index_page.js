@@ -2,9 +2,8 @@
 newT.save("gitactivity.site", function(data) {
   return (
     newT.div({},
-      newT.p("public ",
-           newT.a({href:"https://github.com"}, "github.com"),
-           " activity for ", newT.em(data.user), " ", data.since_date),
+      newT.p(newT.a({href:"https://github.com/"+data.user}, "github.com/"+data.user),
+           " activity ",  data.since_date),
       newT.ul(
         newT.eachRender(data.summaries, "gitsummaries.site")
       ),
@@ -168,7 +167,7 @@ function plurald( str, count ) {
   }
 }
 function since_date(data) {
-  var months = ["jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dev"];
+  var months = ["jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
   var last = data[data.length-1];
   var _date = new Date( last.created_at);
 
